@@ -1,0 +1,20 @@
+.step {
+    display: flex;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+
+    &__icon {
+        font-size: 36px;
+        color: #FFFFFF;
+        position: absolute;
+        left: 0;
+    }
+
+    &__text {
+        text-align: center;
+        font-size: 36px;
+        color: #FFFFFF;
+    }
+}

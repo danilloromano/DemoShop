@@ -1,0 +1,42 @@
+@import "../../../assets/variables/variables.scss";
+
+.card {
+    position: absolute;
+    left: 50%;                   
+    top: 12%;                
+    transform: translateX(-50%);
+    width: 280px;
+    height: 175px;
+    background-image: url('../../../assets/images/card-default.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    &__container {
+        padding: 80px 14px 0;
+    }
+    
+    &__digit-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__digit {
+        font-size: 20px;
+        color: #FFFFFF;
+        text-shadow: 0px 1px 2px #000000B3;
+    }
+
+    &__titular-info-wrapper {
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__titular-info {
+        font-size: 15px;
+        color: #FFFFFF;
+        text-shadow: 0px 1px 2px #000000B3;
+    }
+}
