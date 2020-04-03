@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
 import "../Home/Home.scss";
 import SideBarHeader from "../../atoms/sideBarHeader/SideBarHeader.js"
 import Card from "../../molecules/card/Card.js";
+import Form from "../../molecules/form/Form.js";
 
 class Home extends Component {
 
@@ -10,7 +10,13 @@ class Home extends Component {
         return (
             <Fragment>
                 <SideBarHeader />
-                <Card />
+                <div className="container__card">
+                    <Card />
+                </div>
+                
+                <div className="container__form">
+                    <Form />
+                </div>
             </Fragment>
         )
     }

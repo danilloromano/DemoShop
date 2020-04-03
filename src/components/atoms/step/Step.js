@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { FaAngleLeft } from 'react-icons/fa';
 
-
 import './Step.scss';
 
 class Step extends Component {
