@@ -19,17 +19,34 @@
         height: 100%;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
-        background-image: url('../../../assets/images/card-default.png');
         background-repeat: no-repeat;
         background-size: 100% 100%;
     }
-
+    
     &__front-container {
-         padding: 80px 14px 0;
+        padding: 80px 14px 0;
     }
 
+    &__front {
+        background-image: url('../../../assets/images/card-default.png');
+    }
+    
     &__back {
         transform: rotateY(180deg);
+        background-image: url('../../../assets/images/back-card-default.png');
+
+        &-cvv-container {
+            position: relative;
+            top: 83px;
+            left: 48%;
+        }
+
+        &-cvv {
+            font-size: 20px;
+            color: #3C3C3C;
+            text-shadow: 0px 1px 2px #000000B3;
+            letter-spacing: 5px;
+        }
     }
     
     &__digit-container {

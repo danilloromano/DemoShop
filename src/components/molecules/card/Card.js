@@ -23,7 +23,9 @@ class Card extends Component {
                     </div>
                     <div>
                         <div className="card__back">
-
+                            <div className="card__back-cvv-container">
+                                <span className="card__back-cvv">***</span>
+                            </div>
                         </div>
                     </div>
                 </div>

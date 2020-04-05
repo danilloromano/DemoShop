@@ -5,7 +5,6 @@ import Card from "../../molecules/card/Card.js";
 import Form from "../../molecules/form/Form.js";
 
 class Home extends Component {
-
     render() {
         return (
             <Fragment>
@@ -20,7 +19,6 @@ class Home extends Component {
             </Fragment>
         )
     }
-
 }
 Home.propTypes = {}
 

@@ -1,27 +1,25 @@
 import React, { Component } from "react";
 import Home from "../components/pages/Home/Home.js";
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import "../assets/defaults/reset.css";
 import "../assets/defaults/default.scss";
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from '../redux/reducers/index.js'
 
-const store = createStore(reducers)
+import formReducer from '../redux/reducers/formReducer';
+
+let store = createStore(formReducer);
 
 class App extends Component {
-
-    componentDidMount() {}
-
     render() {
         return (
-            <Provider store={store}>
-                <Router>
+            <Router>
+                <Provider store={store}>
                     <div className="app_container">
-                        <Route exact path={'/'} component={() => <Home/>}/>
+                        <Route exact path={'/'} component={() => <Home />} />
                     </div>
-                </Router>
-            </Provider>
+                </Provider>
+            </Router>
         )
     }
 }
