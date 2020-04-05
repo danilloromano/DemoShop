@@ -7,14 +7,14 @@ import {
     VALID
 } from '../constants/constants.js';
 
-export const updateCardNumber = (value) => { return { type: NUMBER_CARD, value: value }};
-
-export const updateName = (value) => { return { type: NAME, value: value }};
+export const updateCardNumber = (value) => { return { type: NUMBER_CARD, cardNumber: value }};
     
-export const updateShelfLife = (value) => { return { type: SHELF_LIFE, value: value}};
+export const updateName = (value) => { return { type: NAME, cardName: value }};
+
+export const updateShelfLife = (value) => { return { type: SHELF_LIFE, shelfLife: value}};
     
-export const updateCVV = (value) => { return { type: CVV, value: value }};
+export const updateCVV = (value) => { return { type: CVV, cvv: value }};
 
-export const updatePortionQuantity = (value) => { return { type: PORTION_QUANTITY, value: value }};
+export const updatePortionQuantity = (value) => { return { type: PORTION_QUANTITY, portionQuantity: value }};
 
-export const updateValid = (value) => { return { type: VALID, value: value }};
+export const updateValid = (value) => { return { type: VALID, valid: value }};

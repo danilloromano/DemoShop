@@ -9,8 +9,8 @@ import {
 } from '../constants/constants.js'
 
 const INITIAL_STATE = {
-    numberCard: '',
-    name: '',
+    cardNumber: '',
+    cardName: '',
     shelfLife: '',
     cvv: '',
     portionQuantity: 0,
@@ -20,27 +20,28 @@ const INITIAL_STATE = {
 const formReducer = ( state = INITIAL_STATE, action ) => {
     switch (action.type) {
         case NUMBER_CARD:
-            return  { ...state, numberCard: action.value };
+            return  { ...state, cardNumber: action.cardNumber };
         break;
 
         case NAME:
-            return  { ...state, name: action.value };
+            
+            return  { ...state, cardName: action.cardName };
         break;
 
         case SHELF_LIFE:
-            return  { ...state, shelfLife: action.value };
+            return  { ...state, shelfLife: action.shelfLife };
         break;
 
         case CVV:
-            return  { ...state, cvv: action.value };
+            return  { ...state, cvv: action.cvv };
         break;
 
         case PORTION_QUANTITY:
-            return  { ...state, portionQuantity: action.value };
+            return  { ...state, portionQuantity: action.portionQuantity };
         break;
 
         case VALID:
-            return  { ...state, valid: action.value };
+            return  { ...state, valid: action.valid };
         break;
 
         default:

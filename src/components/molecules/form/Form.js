@@ -15,119 +15,145 @@ import {
 } from '../../../redux/actions/form-actions'
 
 const currencies = [
-    {value: '01', label: 1},
-    {value: '02', label: 2},
-    {value: '03', label: 3},
-    {value: '04', label: 4},
-    {value: '05', label: 5},
-    {value: '06', label: 6},
-    {value: '07', label: 7},
-    {value: '08', label: 8},
-    {value: '09', label: 9},
-    {value: '10', label: 10},
-    {value: '11', label: 11},
-    {value: '12', label: 12}
+    {label: '0', value: 0},
+    {label: '01', value: 1},
+    {label: '02', value: 2},
+    {label: '03', value: 3},
+    {label: '04', value: 4},
+    {label: '05', value: 5},
+    {label: '06', value: 6},
+    {label: '07', value: 7},
+    {label: '08', value: 8},
+    {label: '09', value: 9},
+    {label: '10', value: 10},
+    {label: '11', value: 11},
+    {label: '12', value: 12}
 ];
-
-const validate = values => {
-    const errors = {};
-    console.log('____________________', values.cardNumber.length)
-    if (!values.cardNumber) {
-        errors.cardNumber = 'Card Number is Required';
-        console.log('____________________', values.cardNumber.length)
-    } else if (values.cardNumber.length > 16) {
-        errors.cardNumber = 'Must be 16 characters';
-    }
-    console.log(errors)
-    return errors;
-};
 
 const Form = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            cardNumber: props.numberCard,
-            cardName: props.name,
+            cardNumber: props.cardNumber,
+            cardName: props.cardName,
             validete: props.shelfLife,
             cvv: props.cvv,
             parceNumber: props.portionQuantity,
         },
         validationSchema: Yup.object({
-            cardNumber: Yup.string().max(16, 'Must be 16 characters or less').required('Required'),
+            cardNumber: Yup.string()
+            .max(16, 'Must be 16 characters')
+            .min(16, 'Must be 16 characters')
+            .required('Required'),
             cardName: Yup.string().required('Required'),
             validete: Yup.string().required('Required'),
-            cvv: Yup.number().max(3, 'Must be 3 characters').required('Required'),
-            parceNumber: Yup.string().required('Required'),
+            cvv: Yup.number().max(3, 'Invalid CVV').required('Required'),
+            parceNumber: Yup.number().required('Required'),
         }),
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
     });
-    console.log(formik)
+
     return (
         <div className="form">
             <form className='form__container' onSubmit={formik.handleSubmit}>
                 <div className="form__full">
                     <TextField {...formik.getFieldProps('cardNumber')}
-                        error = {formik.errors.cardNumber ? true : false}
+                        error = {formik.touched.cardNumber && formik.errors.cardNumber ? true : false}
                         id="cardNumber" 
                         label="Numero do cartao" 
                         name="cardNumber"
                         type="text"
-                        helperText={formik.errors.cardNumber}
+                        helperText={ 
+                            formik.touched.cardNumber &&
+                            formik.errors.cardNumber ? 
+                            formik.errors.cardNumber : null}
                         onChange={formik.handleChange}
-                        value={formik.values.cardNumber}
+                        value={formik.values.cardNumber || ''}
+                        onKeyUp={(e) => props.updateCardNumber(e.target.value)}
                     />
                 </div>
 
                 <div className="form__full">
-                    <TextField 
+                    <TextField {...formik.getFieldProps('cardName')}
+                        error = {
+                            formik.touched.cardName &&
+                            formik.errors.cardName ?
+                            true : false}
                         id="cardName"
                         label="Nome (igual ao cartao)" 
                         name="cardName"
                         type="text"
                         onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.cardName}
-                        
+                        onKeyUp={(e) => props.updateName(e.target.value)}
+                        value={formik.values.cardName || ''}
+                        helperText={ 
+                            formik.touched.cardName &&
+                            formik.errors.cardName ? 
+                            formik.errors.cardName : null}
                     />
                 </div>
 
                 <div className="form__two-col">
                     <div className="form__half">
-                        <TextField 
+                        <TextField {...formik.getFieldProps('validete')}
+                            error = {
+                                formik.touched.validete &&
+                                formik.errors.validete ?
+                                true : false}
                             id="validete" 
                             label="Validade"
                             name="validete"
                             type="text"
                             onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
+                            onKeyUp={(e) => props.updateShelfLife(e.target.value)}
                             value={formik.values.validete}
+                            helperText={ 
+                                formik.touched.validete &&
+                                formik.errors.validete ? 
+                                formik.errors.validete : null}
                         />
                     </div>
                     <div className="form__half">
-                        <TextField 
+                        <TextField {...formik.getFieldProps('cvv')}
+                            error = {
+                                formik.touched.cvv &&
+                                formik.errors.cvv ?
+                                true : false}
                             id="cvv"
                             label="CVV"
                             name="cvv"
                             type="number"
                             onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
+                            onKeyUp={(e) => props.updateCVV(e.target.value)}
                             value={formik.values.cvv}
+                            helperText={ 
+                                formik.touched.cvv &&
+                                formik.errors.cvv ? 
+                                formik.errors.cvv : null}
                         />
                     </div>
                 </div>
 
                 <div className="form__full">
-                    <TextField
+                    <TextField {...formik.getFieldProps('parceNumber')}
+                        error = {
+                            formik.touched.parceNumber &&
+                            formik.errors.parceNumber ?
+                            true : false}
                         id="parceNumber"
                         select
                         label="Número de parcelas"
                         name="parceNumber"
                         type="number"
                         onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
+                        onKeyUp={(e) => props.updatePortionQuantity(e.target.value)}
                         value={formik.values.parceNumber.value}
+                        helperText={ 
+                            formik.touched.parceNumber &&
+                            formik.errors.parceNumber ? 
+                            formik.errors.parceNumber : null}
                         SelectProps={{ native: true }}>
                         {currencies.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -154,10 +180,10 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 
-const mapStateToProps = (state) => {
+  const mapStateToProps = (state) => {
     return {
-        numberCard: state.numberCard,
-        name: state.name,
+        cardNumber: state.cardNumber,
+        cardName: state.cardName,
         shelfLife: state.shelfLife,
         cvv: state.cvv,
         portionQuantity: state.portionQuantity,
