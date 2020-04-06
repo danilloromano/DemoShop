@@ -13,6 +13,10 @@
         height: 100%;
     }
 
+    &:hover &__container, &:active &__container  {
+        transform: rotateY(180deg);
+    }
+
     &__front, &__back {
         position: absolute;
         width: 100%;
@@ -42,7 +46,7 @@
         }
 
         &-cvv {
-            font-size: 20px;
+            font-size: 14px;
             color: #3C3C3C;
             text-shadow: 0px 1px 2px #000000B3;
             letter-spacing: 5px;
@@ -76,7 +80,17 @@
         text-shadow: 0px 1px 2px #000000B3;
     }
 
-    &:hover &__container, &:active &__container  {
-        transform: rotateY(180deg);
-    }
+
+}
+
+.rotate {
+    transform: rotateY(180deg);
+}
+
+.card-imge-complete-front {
+    background-image: url('../../../assets/images/card.png');
+}
+
+.card-imge-complete-back {
+    background-image: url('../../../assets/images/back-card.png');
 }

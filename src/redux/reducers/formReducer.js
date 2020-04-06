@@ -5,7 +5,9 @@ import {
     SHELF_LIFE, 
     CVV, 
     PORTION_QUANTITY, 
-    VALID
+    VALID,
+    ROTATE_CARD,
+    CHANGE_BACK_IMAGE
 } from '../constants/constants.js'
 
 const INITIAL_STATE = {
@@ -14,7 +16,9 @@ const INITIAL_STATE = {
     shelfLife: '',
     cvv: '',
     portionQuantity: 0,
-    valid: false
+    rotateCard: false,
+    valid: false,
+    backImage: false
 }
 
 const formReducer = ( state = INITIAL_STATE, action ) => {
@@ -38,6 +42,15 @@ const formReducer = ( state = INITIAL_STATE, action ) => {
 
         case PORTION_QUANTITY:
             return  { ...state, portionQuantity: action.portionQuantity };
+        break;
+
+        case ROTATE_CARD:
+            return  { ...state, rotateCard: action.rotateCard };
+        break;
+
+        case CHANGE_BACK_IMAGE:
+            console.log('action.backImage',action.backImage)
+            return  { ...state, backImage: action.backImage };
         break;
 
         case VALID:

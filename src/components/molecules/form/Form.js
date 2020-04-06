@@ -11,7 +11,9 @@ import {
     updateShelfLife,
     updateCVV,
     updatePortionQuantity,
-    updateValid
+    updateValid,
+    rotateCard,
+    changeBackImage
 } from '../../../redux/actions/form-actions'
 
 const currencies = [
@@ -45,9 +47,16 @@ const Form = (props) => {
             .max(16, 'Must be 16 characters')
             .min(16, 'Must be 16 characters')
             .required('Required'),
+
             cardName: Yup.string().required('Required'),
+
             validete: Yup.string().required('Required'),
-            cvv: Yup.number().max(3, 'Invalid CVV').required('Required'),
+
+            cvv: Yup.number()
+            .max(999, 'Must be 3 characters')
+            .min(999, 'Must be 3 charactersssssssssssssss')
+            .required('Required'),
+
             parceNumber: Yup.number().required('Required'),
         }),
         onSubmit: values => {
@@ -70,6 +79,7 @@ const Form = (props) => {
                             formik.errors.cardNumber ? 
                             formik.errors.cardNumber : null}
                         onChange={formik.handleChange}
+                        onFocus={() => props.changeBackImage(true)}
                         value={formik.values.cardNumber || ''}
                         onKeyUp={(e) => props.updateCardNumber(e.target.value)}
                     />
@@ -126,6 +136,8 @@ const Form = (props) => {
                             name="cvv"
                             type="number"
                             onChange={formik.handleChange}
+                            onFocus={() => props.rotateCard(true)}
+                            onBlur={() => props.rotateCard(false)}
                             onKeyUp={(e) => props.updateCVV(e.target.value)}
                             value={formik.values.cvv}
                             helperText={ 
@@ -176,7 +188,9 @@ const mapDispatchToProps = (dispatch) => {
         updateCVV: (value) => dispatch(updateCVV(value)),
         updatePortionQuantity: (value) => dispatch(updatePortionQuantity(value)),
         updateValid: (value) => dispatch(updateValid(value)),
-        updateName: (value) => dispatch(updateName(value))
+        updateName: (value) => dispatch(updateName(value)),
+        rotateCard: (value) => dispatch(rotateCard(value)),
+        changeBackImage: (value) => dispatch(changeBackImage(value))
     }
   }
 
@@ -187,6 +201,7 @@ const mapDispatchToProps = (dispatch) => {
         shelfLife: state.shelfLife,
         cvv: state.cvv,
         portionQuantity: state.portionQuantity,
+        backImage: state.backImage,
         valid: false
     }
   }
