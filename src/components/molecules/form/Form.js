@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Form.scss';
 import TextField from '@material-ui/core/TextField';
 import Button from '../../atoms/button/Button.js';
@@ -34,10 +34,6 @@ const currencies = [
 
 const Form = (props) => {
 
-    const validateFullName = (value) => {
-        return /^[a-zA-Z]{4,}(?: [a-zA-Z]+)(?: [a-zA-Z]+){0,3}$/.test(value);
-    }
-
     const validateCardExpire = (date) => {
         var d = new Date();
         var currentYear = d.getFullYear();
@@ -53,17 +49,17 @@ const Form = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            cardNumber: props.cardNumber,
-            cardName: props.cardName,
-            validete: props.shelfLife,
-            cvv: props.cvv,
+            cardNumber: '',
+            cardName: '',
+            validete: '',
+            cvv: '',
             parceNumber: props.portionQuantity,
         },
         validationSchema: Yup.object({
             cardNumber: Yup.number()
             .required('Required')
-            .max(16, 'Must be 16 characters')
-            .min(16, 'Must be 16 characters'),
+            .test('len', 'Must be exactly 16 characters',
+             val => val && val.toString().length === 16),
 
             cardName: Yup.string()
             .required('Required')
@@ -85,10 +81,17 @@ const Form = (props) => {
             parceNumber: Yup.number()
             .required('Required'),
         }),
-        onSubmit: values => {
+        onSubmit: (values, {setSubmitting, resetForm}) => {
             console.log(values)
-            alert(JSON.stringify(values, null, 2));
-        },
+            resetForm(formik.initialValues)
+            props.changeBackImage(false)
+            props.updateName("")
+            props.updateShelfLife("")
+            props.updateCVV("")
+            props.updatePortionQuantity(0)
+            props.rotateCard(false)
+            setSubmitting(false);
+        }
     });
 
     return (
@@ -190,7 +193,7 @@ const Form = (props) => {
                         onFocus={() => props.rotateCard(false)}
                         onChange={formik.handleChange}
                         onKeyUp={(e) => props.updatePortionQuantity(e.target.value)}
-                        value={formik.values.parceNumber.value}
+                        value={formik.values.parceNumber}
                         helperText={ 
                             formik.touched.parceNumber &&
                             formik.errors.parceNumber ? 
@@ -203,7 +206,7 @@ const Form = (props) => {
                         ))}
                     </TextField>
                 </div>
-                    <Button text={'Continuar'} />
+                    <Button text={'Continuar'} type={'submit'} onclick={() => formik.handleReset}/>
             </form>
         </div>
     )

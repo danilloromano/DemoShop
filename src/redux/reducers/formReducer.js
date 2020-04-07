@@ -7,7 +7,7 @@ import {
     PORTION_QUANTITY, 
     VALID,
     ROTATE_CARD,
-    CHANGE_BACK_IMAGE
+    CHANGE_BACK_IMAGE,
 } from '../constants/constants.js'
 
 const INITIAL_STATE = {
@@ -49,7 +49,6 @@ const formReducer = ( state = INITIAL_STATE, action ) => {
         break;
 
         case CHANGE_BACK_IMAGE:
-            console.log('action.backImage',action.backImage)
             return  { ...state, backImage: action.backImage };
         break;
 
