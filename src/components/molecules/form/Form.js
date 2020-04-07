@@ -34,6 +34,23 @@ const currencies = [
 
 const Form = (props) => {
 
+    const validateFullName = (value) => {
+        return /^[a-zA-Z]{4,}(?: [a-zA-Z]+)(?: [a-zA-Z]+){0,3}$/.test(value);
+    }
+
+    const validateCardExpire = (date) => {
+        var d = new Date();
+        var currentYear = d.getFullYear();
+        var currentMonth = d.getMonth() + 1;
+        var parts = date.split('/');
+        var year = parseInt(parts[1], 10) + 2000;
+        var month = parseInt(parts[0], 10);
+        if (year < currentYear || (year == currentYear && month < currentMonth)) {
+            return false
+        }
+        return true
+    }
+
     const formik = useFormik({
         initialValues: {
             cardNumber: props.cardNumber,
@@ -43,23 +60,33 @@ const Form = (props) => {
             parceNumber: props.portionQuantity,
         },
         validationSchema: Yup.object({
-            cardNumber: Yup.string()
+            cardNumber: Yup.number()
+            .required('Required')
             .max(16, 'Must be 16 characters')
-            .min(16, 'Must be 16 characters')
-            .required('Required'),
+            .min(16, 'Must be 16 characters'),
 
-            cardName: Yup.string().required('Required'),
-
-            validete: Yup.string().required('Required'),
-
+            cardName: Yup.string()
+            .required('Required')
+            .matches(/^[a-zA-Z]{4,}(?: [a-zA-Z]+)(?: [a-zA-Z]+){0,3}$/,
+             'invalid Name'),
+            
+            validete: Yup.string()
+            .required('Required')
+            .max(5, 'Must be 5 characters')
+            .min(5, 'Must be 5 characters')
+            .test('Expired_card', 'Your card is expired',
+             value => value && validateCardExpire(value)),
+            
             cvv: Yup.number()
-            .max(999, 'Must be 3 characters')
-            .min(999, 'Must be 3 charactersssssssssssssss')
-            .required('Required'),
+            .required('Required')
+            .test('len', 'Must be exactly 3 characters',
+             val => val && val.toString().length === 3),
 
-            parceNumber: Yup.number().required('Required'),
+            parceNumber: Yup.number()
+            .required('Required'),
         }),
         onSubmit: values => {
+            console.log(values)
             alert(JSON.stringify(values, null, 2));
         },
     });
@@ -95,6 +122,7 @@ const Form = (props) => {
                         label="Nome (igual ao cartao)" 
                         name="cardName"
                         type="text"
+                        onFocus={() => props.rotateCard(false)}
                         onChange={formik.handleChange}
                         onKeyUp={(e) => props.updateName(e.target.value)}
                         value={formik.values.cardName || ''}
@@ -116,6 +144,7 @@ const Form = (props) => {
                             label="Validade"
                             name="validete"
                             type="text"
+                            onFocus={() => props.rotateCard(false)}
                             onChange={formik.handleChange}
                             onKeyUp={(e) => props.updateShelfLife(e.target.value)}
                             value={formik.values.validete}
@@ -137,7 +166,6 @@ const Form = (props) => {
                             type="number"
                             onChange={formik.handleChange}
                             onFocus={() => props.rotateCard(true)}
-                            onBlur={() => props.rotateCard(false)}
                             onKeyUp={(e) => props.updateCVV(e.target.value)}
                             value={formik.values.cvv}
                             helperText={ 
@@ -159,6 +187,7 @@ const Form = (props) => {
                         label="Número de parcelas"
                         name="parceNumber"
                         type="number"
+                        onFocus={() => props.rotateCard(false)}
                         onChange={formik.handleChange}
                         onKeyUp={(e) => props.updatePortionQuantity(e.target.value)}
                         value={formik.values.parceNumber.value}
