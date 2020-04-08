@@ -5,6 +5,7 @@ import Button from '../../atoms/button/Button.js';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { 
     updateCardNumber,  
     updateName,
@@ -34,6 +35,16 @@ const currencies = [
 
 const Form = (props) => {
 
+    const resetStore = () => {
+        props.changeBackImage(false)
+        props.rotateCard(false)
+        props.updateName("")
+        props.updateShelfLife("")
+        props.updateCVV("")
+        props.updatePortionQuantity(0)
+        props.updateCardNumber("")
+    }
+
     const validateCardExpire = (date) => {
         var d = new Date();
         var currentYear = d.getFullYear();
@@ -51,9 +62,9 @@ const Form = (props) => {
         initialValues: {
             cardNumber: '',
             cardName: '',
-            validete: '',
+            validate: '',
             cvv: '',
-            parceNumber: props.portionQuantity,
+            portionNumber: props.portionQuantity,
         },
         validationSchema: Yup.object({
             cardNumber: Yup.number()
@@ -66,7 +77,7 @@ const Form = (props) => {
             .matches(/^[a-zA-Z]{4,}(?: [a-zA-Z]+)(?: [a-zA-Z]+){0,3}$/,
              'invalid Name'),
             
-            validete: Yup.string()
+            validate: Yup.string()
             .required('Required')
             .max(5, 'Must be 5 characters')
             .min(5, 'Must be 5 characters')
@@ -78,19 +89,28 @@ const Form = (props) => {
             .test('len', 'Must be exactly 3 characters',
              val => val && val.toString().length === 3),
 
-            parceNumber: Yup.number()
+            portionNumber: Yup.number()
             .required('Required'),
         }),
         onSubmit: (values, {setSubmitting, resetForm}) => {
-            console.log(values)
-            resetForm(formik.initialValues)
-            props.changeBackImage(false)
-            props.updateName("")
-            props.updateShelfLife("")
-            props.updateCVV("")
-            props.updatePortionQuantity(0)
-            props.rotateCard(false)
-            setSubmitting(false);
+            axios({
+                method: 'post',
+                url: 'myurl',
+                data: values,
+                headers: {'Content-Type': 'application/json' }
+                })
+                .then( (response) => {
+                    resetForm(formik.initialValues)
+                    resetStore();
+                    setSubmitting(false);
+                })
+                .catch( (error) =>  {
+                    resetForm(formik.initialValues)
+                    resetStore();
+                    setSubmitting(true);
+                });
+            
+            
         }
     });
 
@@ -138,23 +158,23 @@ const Form = (props) => {
 
                 <div className="form__two-col">
                     <div className="form__half">
-                        <TextField {...formik.getFieldProps('validete')}
+                        <TextField {...formik.getFieldProps('validate')}
                             error = {
-                                formik.touched.validete &&
-                                formik.errors.validete ?
+                                formik.touched.validate &&
+                                formik.errors.validate ?
                                 true : false}
-                            id="validete" 
+                            id="validate" 
                             label="Validade"
-                            name="validete"
+                            name="validate"
                             type="text"
                             onFocus={() => props.rotateCard(false)}
                             onChange={formik.handleChange}
                             onKeyUp={(e) => props.updateShelfLife(e.target.value)}
-                            value={formik.values.validete}
+                            value={formik.values.validate}
                             helperText={ 
-                                formik.touched.validete &&
-                                formik.errors.validete ? 
-                                formik.errors.validete : null}
+                                formik.touched.validate &&
+                                formik.errors.validate ? 
+                                formik.errors.validate : null}
                         />
                     </div>
                     <div className="form__half">
@@ -180,24 +200,24 @@ const Form = (props) => {
                 </div>
 
                 <div className="form__full">
-                    <TextField {...formik.getFieldProps('parceNumber')}
+                    <TextField {...formik.getFieldProps('portionNumber')}
                         error = {
-                            formik.touched.parceNumber &&
-                            formik.errors.parceNumber ?
+                            formik.touched.portionNumber &&
+                            formik.errors.portionNumber ?
                             true : false}
-                        id="parceNumber"
+                        id="portionNumber"
                         select
                         label="Número de parcelas"
-                        name="parceNumber"
+                        name="portionNumber"
                         type="number"
                         onFocus={() => props.rotateCard(false)}
                         onChange={formik.handleChange}
                         onKeyUp={(e) => props.updatePortionQuantity(e.target.value)}
-                        value={formik.values.parceNumber}
+                        value={formik.values.portionNumber}
                         helperText={ 
-                            formik.touched.parceNumber &&
-                            formik.errors.parceNumber ? 
-                            formik.errors.parceNumber : null}
+                            formik.touched.portionNumber &&
+                            formik.errors.portionNumber ? 
+                            formik.errors.portionNumber : null}
                         SelectProps={{ native: true }}>
                         {currencies.map((option) => (
                             <option key={option.value} value={option.value}>
