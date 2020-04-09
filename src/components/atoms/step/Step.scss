@@ -1,3 +1,5 @@
+@import "../../../assets/variables/variables.scss";
+
 .step {
     display: flex;
     width: 100%;
@@ -7,14 +9,41 @@
 
     &__icon {
         font-size: 30px;
-        color: #FFFFFF;
+        color: $white;
         position: absolute;
         left: -20px;
     }
 
     &__text {
+        display: block;
         text-align: center;
         font-size: 13px;
-        color: #FFFFFF;
+        color: $white;
+    }
+
+    &__text-desktop {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .step {
+
+        &__icon {
+            font-size: 20px;
+            left: 0px;
+            top: -3px;
+        }
+
+        &__text {
+            display: none;
+        }
+
+        &__text-desktop {
+            display: block;
+            text-align: center;
+            font-size: 13px;
+            color: $white;
+        }
     }
 }

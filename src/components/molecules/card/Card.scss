@@ -43,8 +43,8 @@
 
         &-cvv {
             font-size: 14px;
-            color: #3C3C3C;
-            text-shadow: 0px 1px 2px #000000B3;
+            color: $black;
+            text-shadow: 0px 1px 2px $allBlack;
             letter-spacing: 5px;
         }
     }
@@ -58,7 +58,7 @@
     &__digit {
         font-size: 16px;
         color: #FFFFFF;
-        text-shadow: 0px 1px 2px #000000B3;
+        text-shadow: 0px 1px 2px $allBlack;
         letter-spacing: 5px;
     }
 
@@ -70,10 +70,10 @@
     }
 
     &__titular-info {
-        font-size: 15px;
+        font-size: 16px;
         text-transform: uppercase;
         color: #FFFFFF;
-        text-shadow: 0px 1px 2px #000000B3;
+        text-shadow: 0px 1px 2px $allBlack;
     }
 
 
@@ -89,4 +89,19 @@
 
 .card-imge-complete-back {
     background-image: url('../../../assets/images/back-card.png');
+}
+
+@media screen and (min-width: 1024px) {
+    .card {
+        width: 365px;
+        height: 225px;
+
+        &__front-container {
+            padding: 105px 27px 0;
+        }
+
+        &__digit {
+            font-size: 24px;
+        }
+    }
 }

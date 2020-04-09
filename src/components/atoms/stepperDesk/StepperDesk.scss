@@ -1,0 +1,60 @@
+@import "../../../assets/variables/variables.scss";
+
+.stepperDesk {
+    display: none;
+}
+
+@media screen and (min-width: 1024px) {
+    .stepperDesk {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-end;
+        padding-top: 50px;
+
+        &__item-container {
+            display: flex;
+            align-items: center;
+        }
+
+        &__item {
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            border-radius: 50%;
+            padding: 2px;
+            border: 2px solid $red;
+            color: $red;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        &__item-checked {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: $red;
+            padding: 2px;
+            border: 2px solid $red;
+            color: #ffffff;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        &__text {
+            color: $red;
+            font-size: 13px;
+        }
+
+        &__icon {
+            display: flex;
+            color: $red;
+            font-size: 20px;
+            margin: 0 24px;
+        }
+    }
+}

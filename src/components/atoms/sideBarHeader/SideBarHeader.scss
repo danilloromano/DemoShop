@@ -6,14 +6,15 @@
     align-items: center;
     height: 240px;
     padding: 40px;
-    background: #DE4B4B;
+    background: $red;
 
     &__title {
         display: flex;
+        align-items: center;
         margin-top: 30px;
         max-width: 250px;
-        justify-content: space-between;
-    
+        margin-left: 30px;
+        justify-content: center;
     }
 
     &__image {
@@ -24,10 +25,32 @@
     &__text {
         font-size: 16px;
         font-weight: bold;
-        color: #FFFFFF;
-        padding-left: 20px;    }
+        color: $white;
+        padding-left: 20px;    
+    }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1024px) {
+    .sidebar-header {
+        width: 22%;
+        height: 100%;
+        padding: 60px 20px 0 60px;
+        align-items: flex-start;
+
+        &__title {
+            margin-left: 0px;
+            margin-top: 55px;
+        }
+
+        &__image {
+            height: 50px;
+            width: 50px;
+        }
+
+        &__text {
+            font-size: 20px;  
+        }
+    }
+    
 
 }
