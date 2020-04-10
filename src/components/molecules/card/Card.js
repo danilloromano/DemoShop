@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Card.scss';
 import { connect } from 'react-redux';
 import cx from "classnames";
+import PropTypes from "prop-types";
 
 class Card extends Component {
 
@@ -102,6 +103,16 @@ class Card extends Component {
     }
 }
 
+Card.propTypes = {
+    cardNumber: PropTypes.string,
+    cardName: PropTypes.string,
+    shelfLife: PropTypes.string,
+    cvv: PropTypes.string,
+    portionQuantity: PropTypes.number,
+    rotateCard: PropTypes.bool,
+    backImage: PropTypes.bool,
+}
+
 const mapStateToProps = (state) => {
     return {
         cardNumber: state.cardNumber,
@@ -111,7 +122,6 @@ const mapStateToProps = (state) => {
         portionQuantity: state.portionQuantity,
         rotateCard: state.rotateCard,
         backImage: state.backImage,
-        valid: false
     }
   }
 

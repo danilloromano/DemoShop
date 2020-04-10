@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '../../atoms/button/Button.js';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { 
@@ -231,7 +232,17 @@ const Form = (props) => {
         </div>
     )
 }
-    
+
+Form.propTypes = {
+    updateCardNumber: PropTypes.func,
+    updateName: PropTypes.func,
+    updateShelfLife: PropTypes.func,
+    updateCVV: PropTypes.func,
+    updatePortionQuantity: PropTypes.func,
+    updateValid: PropTypes.func,
+    rotateCard: PropTypes.func,
+    changeBackImage: PropTypes.func
+}
 
 const mapDispatchToProps = (dispatch) => {
     return {
