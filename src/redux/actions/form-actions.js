@@ -7,7 +7,6 @@ import {
     VALID,
     ROTATE_CARD,
     CHANGE_BACK_IMAGE,
-    RESET
 } from '../constants/constants.js';
 
 export const updateCardNumber = (value) => { return { type: NUMBER_CARD, cardNumber: value }};

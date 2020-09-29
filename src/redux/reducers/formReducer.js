@@ -24,7 +24,7 @@ const INITIAL_STATE = {
 const formReducer = ( state = INITIAL_STATE, action ) => {
     switch (action.type) {
         case NUMBER_CARD:
-            return  { ...state, cardNumber: action.cardNumber };
+            return  { ...state, cardNumber: action.cardNumber.toString().replace(/\s+/g, '') };
 
         case NAME:
             return  { ...state, cardName: action.cardName };

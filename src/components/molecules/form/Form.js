@@ -2,13 +2,14 @@ import React from 'react';
 import './Form.scss';
 import TextField from '@material-ui/core/TextField';
 import Button from '../../atoms/button/Button.js';
+import InputMask from "react-input-mask";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { 
-    updateCardNumber,  
+import {
+    updateCardNumber,
     updateName,
     updateShelfLife,
     updateCVV,
@@ -19,19 +20,19 @@ import {
 } from '../../../redux/actions/form-actions'
 
 const currencies = [
-    {label: '0', value: 0},
-    {label: '01', value: 1},
-    {label: '02', value: 2},
-    {label: '03', value: 3},
-    {label: '04', value: 4},
-    {label: '05', value: 5},
-    {label: '06', value: 6},
-    {label: '07', value: 7},
-    {label: '08', value: 8},
-    {label: '09', value: 9},
-    {label: '10', value: 10},
-    {label: '11', value: 11},
-    {label: '12', value: 12}
+    { label: '0', value: 0 },
+    { label: '01', value: 1 },
+    { label: '02', value: 2 },
+    { label: '03', value: 3 },
+    { label: '04', value: 4 },
+    { label: '05', value: 5 },
+    { label: '06', value: 6 },
+    { label: '07', value: 7 },
+    { label: '08', value: 8 },
+    { label: '09', value: 9 },
+    { label: '10', value: 10 },
+    { label: '11', value: 11 },
+    { label: '12', value: 12 }
 ];
 
 const Form = (props) => {
@@ -69,143 +70,165 @@ const Form = (props) => {
         },
         validationSchema: Yup.object({
             cardNumber: Yup.number()
-            .required('Required')
-            .test('len', 'Must be exactly 16 characters',
-             val => val && val.toString().length === 16),
+                .required('Required')
+                .test('len', 'Must be exactly 16 characters',
+                    val => val && val.toString().length === 16),
 
             cardName: Yup.string()
-            .required('Required')
-            .matches(/^[a-zA-Z]{4,}(?: [a-zA-Z]+)(?: [a-zA-Z]+){0,3}$/,
-             'invalid Name'),
-            
+                .required('Required')
+                .matches(/^[a-zA-Z]{4,}(?: [a-zA-Z]+)(?: [a-zA-Z]+){0,3}$/,
+                    'invalid Name'),
+
             validate: Yup.string()
-            .required('Required')
-            .max(5, 'Must be 5 characters')
-            .min(5, 'Must be 5 characters')
-            .test('Expired_card', 'Your card is expired',
-             value => value && validateCardExpire(value)),
-            
+                .required('Required')
+                .max(5, 'Must be 5 characters')
+                .min(5, 'Must be 5 characters')
+                .test('Expired_card', 'Your card is expired',
+                    value => value && validateCardExpire(value)),
+
             cvv: Yup.number()
-            .required('Required')
-            .test('len', 'Must be exactly 3 characters',
-             val => val && val.toString().length === 3),
+                .required('Required')
+                .test('len', 'Must be exactly 3 characters',
+                    val => val && val.toString().length === 3),
 
             portionNumber: Yup.number()
-            .required('Required'),
+                .required('Required'),
         }),
-        onSubmit: (values, {setSubmitting, resetForm}) => {
+        onSubmit: (values, { setSubmitting, resetForm }) => {
             axios({
                 method: 'post',
                 url: 'myurl',
                 data: values,
-                headers: {'Content-Type': 'application/json' }
-                })
-                .then( (response) => {
-                    resetForm(formik.initialValues)
-                    resetStore();
-                    setSubmitting(false);
-                })
-                .catch( (error) =>  {
-                    resetForm(formik.initialValues)
-                    resetStore();
-                    setSubmitting(true);
-                });
-            
-            
+                headers: { 'Content-Type': 'application/json' }
+            }).then((response) => {
+                resetForm(formik.initialValues)
+                resetStore();
+                setSubmitting(false);
+            }).catch((error) => {
+                resetForm(formik.initialValues)
+                resetStore();
+                setSubmitting(true);
+            });
         }
     });
-
     return (
         <div className="form">
             <form className='form__container' onSubmit={formik.handleSubmit}>
                 <div className="form__full">
-                    <TextField {...formik.getFieldProps('cardNumber')}
-                        error = {formik.touched.cardNumber && formik.errors.cardNumber ? true : false}
-                        id="cardNumber" 
-                        label="Numero do cartao" 
-                        name="cardNumber"
-                        type="text"
-                        helperText={ 
-                            formik.touched.cardNumber &&
-                            formik.errors.cardNumber ? 
-                            formik.errors.cardNumber : null}
+                    <InputMask {...formik.getFieldProps('cardNumber')}
+                        mask="9999 9999 9999 9999"
+                        maskChar=" "
+                        value={formik.values.cardNumber || ''}
                         onChange={formik.handleChange}
                         onFocus={() => props.changeBackImage(true)}
-                        value={formik.values.cardNumber || ''}
-                        onKeyUp={(e) => props.updateCardNumber(e.target.value)}
-                    />
+                    >
+                        { () =>
+                            <TextField
+                                onKeyUp={(e) => props.updateCardNumber(e.target.value)}
+                                name="cardNumber"
+                                id="cardNumber"
+                                type="text"
+                                label="Numero do cartao"
+                                error={formik.touched.cardNumber &&
+                                formik.errors.cardNumber ? true : false}
+                                helperText={
+                                    formik.touched.cardNumber &&
+                                    formik.errors.cardNumber ?
+                                    formik.errors.cardNumber : null
+                                }
+                            />
+                        }
+                    </InputMask>
                 </div>
 
                 <div className="form__full">
-                    <TextField {...formik.getFieldProps('cardName')}
-                        error = {
+                    <TextField  
+                        error={
                             formik.touched.cardName &&
-                            formik.errors.cardName ?
-                            true : false}
+                                formik.errors.cardName ?
+                                true : false}
                         id="cardName"
-                        label="Nome (igual ao cartao)" 
+                        label="Nome (igual ao cartao)"
                         name="cardName"
                         type="text"
                         onFocus={() => props.rotateCard(false)}
                         onChange={formik.handleChange}
                         onKeyUp={(e) => props.updateName(e.target.value)}
                         value={formik.values.cardName || ''}
-                        helperText={ 
+                        helperText={
                             formik.touched.cardName &&
-                            formik.errors.cardName ? 
-                            formik.errors.cardName : null}
+                                formik.errors.cardName ?
+                                formik.errors.cardName : null}
                     />
                 </div>
 
                 <div className="form__two-col">
                     <div className="form__half">
-                        <TextField {...formik.getFieldProps('validate')}
-                            error = {
-                                formik.touched.validate &&
-                                formik.errors.validate ?
-                                true : false}
-                            id="validate" 
-                            label="Validade"
-                            name="validate"
-                            type="text"
-                            onFocus={() => props.rotateCard(false)}
-                            onChange={formik.handleChange}
-                            onKeyUp={(e) => props.updateShelfLife(e.target.value)}
+                        <InputMask {...formik.getFieldProps('validate')}
+                            mask="99/99"
+                            maskChar="0"
                             value={formik.values.validate}
-                            helperText={ 
-                                formik.touched.validate &&
-                                formik.errors.validate ? 
-                                formik.errors.validate : null}
-                        />
+                            onChange={formik.handleChange}
+                            onFocus={() => props.rotateCard(false)}
+                            >
+                            { () => 
+                                <TextField
+                                    onKeyUp={(e) => props.updateShelfLife(e.target.value)}
+                                    error={
+                                        formik.touched.validate &&
+                                        formik.errors.validate ?
+                                        true : false
+                                    }
+                                    id="validate"
+                                    label="Validade"
+                                    name="validate"
+                                    type="text"
+                                    helperText={
+                                        formik.touched.validate &&
+                                        formik.errors.validate ?
+                                        formik.errors.validate : null
+                                    }
+                                />
+                            }
+                        </InputMask>
                     </div>
                     <div className="form__half">
-                        <TextField {...formik.getFieldProps('cvv')}
-                            error = {
-                                formik.touched.cvv &&
-                                formik.errors.cvv ?
-                                true : false}
-                            id="cvv"
-                            label="CVV"
-                            name="cvv"
-                            type="number"
+                        <InputMask {...formik.getFieldProps('cvv')}
+                            mask="999"
+                            maskChar="*"
                             onChange={formik.handleChange}
                             onFocus={() => props.rotateCard(true)}
-                            onKeyUp={(e) => props.updateCVV(e.target.value)}
                             value={formik.values.cvv}
-                            helperText={ 
-                                formik.touched.cvv &&
-                                formik.errors.cvv ? 
-                                formik.errors.cvv : null}
-                        />
+                        >
+                            { () => 
+                                <TextField 
+                                    error={
+                                        formik.touched.cvv &&
+                                        formik.errors.cvv ?
+                                        true : false
+                                    }
+                                    id="cvv"
+                                    label="CVV"
+                                    name="cvv"
+                                    type="text"
+                                    onKeyUp={(e) => props.updateCVV(e.target.value)}
+                                    helperText={
+                                        formik.touched.cvv &&
+                                        formik.errors.cvv ?
+                                        formik.errors.cvv : null
+                                    }
+                                />
+                            }
+                        </InputMask>
                     </div>
                 </div>
 
                 <div className="form__full">
                     <TextField {...formik.getFieldProps('portionNumber')}
-                        error = {
+                        error={
                             formik.touched.portionNumber &&
-                            formik.errors.portionNumber ?
-                            true : false}
+                                formik.errors.portionNumber ?
+                                true : false}
                         id="portionNumber"
                         select
                         label="Número de parcelas"
@@ -215,10 +238,10 @@ const Form = (props) => {
                         onChange={formik.handleChange}
                         onKeyUp={(e) => props.updatePortionQuantity(e.target.value)}
                         value={formik.values.portionNumber}
-                        helperText={ 
+                        helperText={
                             formik.touched.portionNumber &&
-                            formik.errors.portionNumber ? 
-                            formik.errors.portionNumber : null}
+                                formik.errors.portionNumber ?
+                                formik.errors.portionNumber : null}
                         SelectProps={{ native: true }}>
                         {currencies.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -227,7 +250,7 @@ const Form = (props) => {
                         ))}
                     </TextField>
                 </div>
-                    <Button text={'Continuar'} type={'submit'} onclick={() => formik.handleReset}/>
+                <Button text={'Continuar'} type={'submit'} onclick={() => formik.handleReset} />
             </form>
         </div>
     )
@@ -255,9 +278,9 @@ const mapDispatchToProps = (dispatch) => {
         rotateCard: (value) => dispatch(rotateCard(value)),
         changeBackImage: (value) => dispatch(changeBackImage(value))
     }
-  }
+}
 
-  const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     return {
         cardNumber: state.cardNumber,
         cardName: state.cardName,
@@ -267,7 +290,7 @@ const mapDispatchToProps = (dispatch) => {
         backImage: state.backImage,
         valid: false
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
 

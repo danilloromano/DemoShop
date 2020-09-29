@@ -92,9 +92,9 @@ class Card extends Component {
                     </div>
                     <div>
                         <div className={changeCardImageBack}>
-                            <div className="card__back-cvv-container">
+                            <span className="card__back-cvv-container">
                                 <span className="card__back-cvv">{ cvv || '***' }</span>
-                            </div>
+                            </span>
                         </div>
                     </div>
                 </div>
